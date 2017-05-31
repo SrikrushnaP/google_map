@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jay Guru</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        .form-control-static{
+            text-align: justify;
+        }
+
+    </style>
+</head>
+<body>
+   
+<!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
+
+    <div id="login-overlay" class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Just Type the Address and get the Details</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="well">
+                        <form action="#" class="form-horizontal" rule="form" id="sellerForm" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">Enter Place</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="txtPlaces" placeholder="Enter a location">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="control-label col-sm-3">Search LOC:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="searchLoc">Mahadev Madir Nahanjra</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feture" class="control-label col-sm-3">Address :</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="address"> Patandurga, Singla
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feture" class="control-label col-sm-3">Town/City :</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="city"> Balasore
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feture" class="control-label col-sm-3">State :</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="state"> Odisha
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feture" class="control-label col-sm-3">Country :</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="country"> India
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="feture" class="control-label col-sm-3">PIN Code :</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="pin">
+                                756023
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="control-label col-sm-3">Latitude :</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="lat">
+                                    21.6768653
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="control-label col-sm-3">Longitude :</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static" id="long">
+                                    87.20085369999993
+                                </p>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script type="text/javascript">
+        google.maps.event.addDomListener(window, 'load', function () {
+            var places = new google.maps.places.Autocomplete(document.getElementById('txtPlaces'));
+            google.maps.event.addListener(places, 'place_changed', function () {
+                var inpVal = $("#txtPlaces").val();
+                var inpValArr = inpVal.split(",");
+                var place = places.getPlace();
+                var address = place.formatted_address;
+                var arr = address.split(",");
+                var arrayLength = arr.length;
+                var statePin = arr[arrayLength-2];
+                var stete_pin= statePin.split(" ");
+                var latitude = place.geometry.location.lat();
+                var longitude = place.geometry.location.lng();
+                // var mesg = "Address: " + address;
+                // mesg += "\nLatitude: " + latitude;
+                // mesg += "\nLongitude: " + longitude;
+                alert(arr[0]+" "+inpValArr[1]);
+                $("#searchLoc").text(inpValArr[0]);
+                if ( arr[0] == inpValArr[1] || arr[0] == arr[arrayLength-3] ) {
+                    $("#address").text(arr[0]);
+                } else {
+                    $("#address").text(arr[0]+" "+inpValArr[1]);
+                }
+                
+                $("#city").text(arr[arrayLength-3]);
+                $("#state").text(stete_pin[1]);
+                $("#country").text(arr[arrayLength-1]);
+
+                if (stete_pin[2] == undefined) {
+                    $("#pin").text("NA");
+                }else{
+                    $("#pin").text(stete_pin[2]);
+                }
+
+                $("#lat").text(latitude);
+                $("#long").text(longitude);
+            });
+        });
+    </script>
+</body>
+</html>
